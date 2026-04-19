@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Resume Analysis | AI Career Copilot{% endblock %}
+
+{% block content %}
+<section class="panel detail-panel">
+    <div class="detail-head">
+        <h1>Resume analysis report</h1>
+        <p>
+            Role: {{ analysis.target_role }} · File: {{ analysis.file_name }} ·
+            {{ analysis.created_at.strftime('%Y-%m-%d %H:%M') }}
+        </p>
+    </div>
+
+    <article class="message-block user-message">
+        <h3>Resume excerpt</h3>
+        <p>{{ analysis.resume_text[:1500] }}{% if analysis.resume_text|length > 1500 %}...{% endif %}</p>
+    </article>
+
+    <article class="message-block ai-message">
+        <h3>AI recommendations</h3>
+        <p>{{ analysis.analysis_text }}</p>
+    </article>
+
+    <div class="detail-actions">
+        <a class="btn-outline" href="{{ url_for('dashboard') }}">Back to dashboard</a>
+        <form method="POST" action="{{ url_for('delete_resume_analysis', analysis_id=analysis.id) }}" onsubmit="return confirm('Delete this resume analysis?');">
+            <button type="submit" class="btn-danger">Delete report</button>
+        </form>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}Conversation | AI Career Copilot{% endblock %}
+
+{% block content %}
+<section class="panel detail-panel">
+    <div class="detail-head">
+        <h1>Conversation detail</h1>
+        <p>Saved on {{ conversation.created_at.strftime('%Y-%m-%d %H:%M') }}</p>
+    </div>
+
+    <article class="message-block user-message">
+        <h3>Your prompt</h3>
+        <p>{{ conversation.prompt }}</p>
+    </article>
+
+    <article class="message-block ai-message">
+        <h3>AI response</h3>
+        <p>{{ conversation.response }}</p>
+    </article>
+
+    <div class="detail-actions">
+        <a class="btn-outline" href="{{ url_for('history') }}">Back to history</a>
+        <a class="btn-primary" href="{{ url_for('dashboard') }}">Start new conversation</a>
+    </div>
+</section>
+{% endblock %}

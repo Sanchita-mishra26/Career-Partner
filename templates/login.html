@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}Login | AI Career Copilot{% endblock %}
+
+{% block content %}
+<section class="auth-wrapper">
+    <div class="auth-card">
+        <div class="auth-heading">
+            <h1>Welcome back</h1>
+            <p>Sign in to continue your AI career conversations.</p>
+        </div>
+
+        <form id="loginForm" class="auth-form" method="POST" novalidate>
+            <label for="identity">Email or Username</label>
+            <input
+                id="identity"
+                name="identity"
+                type="text"
+                placeholder="you@example.com or username"
+                required
+                minlength="3"
+                autocomplete="username"
+            >
+
+            <label for="password">Password</label>
+            <div class="password-field">
+                <input
+                    id="password"
+                    name="password"
+                    type="password"
+                    placeholder="Enter your password"
+                    required
+                    minlength="8"
+                    autocomplete="current-password"
+                >
+                <button type="button" class="toggle-password" data-target="password" aria-label="Show password">
+                    Show
+                </button>
+            </div>
+
+            <div class="auth-row">
+                <label class="check-wrap">
+                    <input type="checkbox" name="remember_me">
+                    <span>Remember me</span>
+                </label>
+                <a class="link" href="{{ url_for('forgot_password') }}">Forgot password?</a>
+            </div>
+
+            <p class="form-error" id="loginError" aria-live="polite"></p>
+            <button type="submit" class="btn-primary">Login</button>
+        </form>
+
+        <p class="auth-switch">
+            No account yet? <a class="link" href="{{ url_for('signup') }}">Create one</a>
+        </p>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/auth.js') }}"></script>
+{% endblock %}

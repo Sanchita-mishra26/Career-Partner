@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block title %}Sign Up | AI Career Copilot{% endblock %}
+
+{% block content %}
+<section class="auth-wrapper">
+    <div class="auth-card">
+        <div class="auth-heading">
+            <h1>Create account</h1>
+            <p>Build your profile and start your AI career journey.</p>
+        </div>
+
+        <form id="signupForm" class="auth-form" method="POST" novalidate>
+            <label for="full_name">Full Name</label>
+            <input
+                id="full_name"
+                name="full_name"
+                type="text"
+                placeholder="Your full name"
+                required
+                minlength="2"
+                autocomplete="name"
+            >
+
+            <label for="email">Email</label>
+            <input
+                id="email"
+                name="email"
+                type="email"
+                placeholder="you@example.com"
+                required
+                autocomplete="email"
+            >
+
+            <label for="username">Username</label>
+            <input
+                id="username"
+                name="username"
+                type="text"
+                placeholder="Choose a username"
+                required
+                minlength="3"
+                autocomplete="username"
+            >
+
+            <label for="password">Password</label>
+            <div class="password-field">
+                <input
+                    id="password"
+                    name="password"
+                    type="password"
+                    placeholder="At least 8 characters"
+                    required
+                    minlength="8"
+                    autocomplete="new-password"
+                >
+                <button type="button" class="toggle-password" data-target="password" aria-label="Show password">
+                    Show
+                </button>
+            </div>
+
+            <div class="password-meter" aria-live="polite">
+                <div class="password-meter-bar" id="passwordMeterBar"></div>
+                <p id="passwordStrengthText">Strength: very weak</p>
+            </div>
+
+            <label for="confirm_password">Confirm Password</label>
+            <div class="password-field">
+                <input
+                    id="confirm_password"
+                    name="confirm_password"
+                    type="password"
+                    placeholder="Re-enter password"
+                    required
+                    minlength="8"
+                    autocomplete="new-password"
+                >
+                <button type="button" class="toggle-password" data-target="confirm_password" aria-label="Show password">
+                    Show
+                </button>
+            </div>
+
+            <p class="form-error" id="signupError" aria-live="polite"></p>
+            <button type="submit" class="btn-primary">Create Account</button>
+        </form>
+
+        <p class="auth-switch">
+            Already have an account? <a class="link" href="{{ url_for('login') }}">Login</a>
+        </p>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/auth.js') }}"></script>
+{% endblock %}

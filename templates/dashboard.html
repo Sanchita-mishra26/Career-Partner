@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard | AI Career Copilot{% endblock %}
+
+{% block content %}
+<section class="dashboard-grid">
+    <aside class="panel side-panel">
+        <h2>{{ g.user.full_name }}</h2>
+        <p class="muted">@{{ g.user.username }}</p>
+        <p>Welcome to your personal AI workspace. Start a new conversation and keep track of every response.</p>
+
+        <nav class="sidebar-nav">
+            <a class="btn-outline" href="{{ url_for('history') }}">Open full history</a>
+            <form method="POST" action="{{ url_for('logout') }}">
+                <button type="submit" class="btn-ghost">Logout</button>
+            </form>
+        </nav>
+    </aside>
+
+    <section class="panel conversation-panel">
+        <div class="panel-head">
+            <h1>Start new conversation</h1>
+            <p>Describe your question or task, then save it to your history.</p>
+        </div>
+
+        <form method="POST" action="{{ url_for('new_conversation') }}" class="conversation-form">
+            <label for="prompt">Your Prompt</label>
+            <textarea id="prompt" name="prompt" rows="6" placeholder="Example: Help me rewrite my resume summary for a machine learning engineer role." required></textarea>
+            <button type="submit" class="btn-primary">Send and Save</button>
+        </form>
+
+        <div class="recent-list">
+            <h3>Recent conversations</h3>
+            {% if recent_conversations %}
+                <ul>
+                    {% for item in recent_conversations %}
+                        <li>
+                            <a href="{{ url_for('view_history_item', conversation_id=item.id) }}">{{ item.prompt[:100] }}{% if item.prompt|length > 100 %}...{% endif %}</a>
+                            <span>{{ item.created_at.strftime('%Y-%m-%d %H:%M') }}</span>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="muted">No conversation yet. Start your first one now.</p>
+            {% endif %}
+        </div>
+    </section>
+
+    <section class="panel resume-panel">
+        <div class="panel-head">
+            <h1>Resume role analyzer</h1>
+            <p>Upload your resume, enter the role, and get AI guidance for skills and gaps.</p>
+        </div>
+
+        <form method="POST" action="{{ url_for('analyze_resume') }}" enctype="multipart/form-data" class="conversation-form">
+            <label for="target_role">Role You Are Applying For</label>
+            <input id="target_role" name="target_role" type="text" placeholder="Example: Machine Learning Engineer" required>
+
+            <label for="resume_file">Upload Resume (PDF, DOCX, TXT)</label>
+            <input id="resume_file" name="resume_file" type="file" accept=".pdf,.docx,.txt" required>
+
+            <button type="submit" class="btn-primary">Analyze Resume</button>
+        </form>
+
+        <div class="recent-list">
+            <h3>Recent resume analyses</h3>
+            {% if recent_resume_analyses %}
+                <ul>
+                    {% for item in recent_resume_analyses %}
+                        <li>
+                            <a href="{{ url_for('view_resume_analysis', analysis_id=item.id) }}">
+                                {{ item.target_role }} · {{ item.file_name }}
+                            </a>
+                            <span>{{ item.created_at.strftime('%Y-%m-%d %H:%M') }}</span>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="muted">No resume analyses yet.</p>
+            {% endif %}
+        </div>
+    </section>
+</section>
+{% endblock %}

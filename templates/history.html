@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}History | AI Career Copilot{% endblock %}
+
+{% block content %}
+<section class="panel history-panel">
+    <div class="history-head">
+        <h1>Conversation history</h1>
+        <p>Search, reopen, and manage your saved conversations.</p>
+    </div>
+
+    <form method="GET" action="{{ url_for('history') }}" class="search-form">
+        <input type="search" name="q" value="{{ search }}" placeholder="Search by prompt or response">
+        <button type="submit" class="btn-primary">Search</button>
+        <a href="{{ url_for('history') }}" class="btn-outline">Reset</a>
+    </form>
+
+    <div class="history-actions">
+        <a href="{{ url_for('dashboard') }}" class="btn-outline">Back to dashboard</a>
+        <form method="POST" action="{{ url_for('clear_history') }}" onsubmit="return confirm('Clear all history? This cannot be undone.');">
+            <button type="submit" class="btn-danger">Clear all</button>
+        </form>
+    </div>
+
+    {% if conversations %}
+        <div class="history-table-wrap">
+            <table class="history-table">
+                <thead>
+                    <tr>
+                        <th>Prompt</th>
+                        <th>Date / Time</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in conversations %}
+                        <tr>
+                            <td>
+                                <a class="history-title" href="{{ url_for('view_history_item', conversation_id=item.id) }}">
+                                    {{ item.prompt[:140] }}{% if item.prompt|length > 140 %}...{% endif %}
+                                </a>
+                            </td>
+                            <td>{{ item.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                            <td class="action-row">
+                                <a class="btn-outline" href="{{ url_for('view_history_item', conversation_id=item.id) }}">Open</a>
+                                <form method="POST" action="{{ url_for('delete_history_item', conversation_id=item.id) }}" onsubmit="return confirm('Delete this history item?');">
+                                    <button type="submit" class="btn-danger">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p class="muted">No matching conversations found.</p>
+    {% endif %}
+</section>
+{% endblock %}

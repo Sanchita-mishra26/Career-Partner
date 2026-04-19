@@ -1,0 +1,3 @@
+venv imp
+pass: 5s4N4lJm15aDUHem
+mysql+mysqldb://4Mn57PuDVA37EaJ.root:5s4N4lJm15aDUHem@gateway01.ap-southeast-1.prod.alicloud.tidbcloud.com:4000/test?ssl_mode=VERIFY_IDENTITY&ssl_ca=<CA_PATH>
